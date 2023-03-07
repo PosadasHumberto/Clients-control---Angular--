@@ -33,12 +33,17 @@ en talla md-->
           </div>
         </li>
 
-
+        <!--boton para conectarse-->
         <li *ngIf="!isLogged" class="nav-item">
-          <a routerLink="/login" class="nav-link">
+          <a
+            routerLink="/login"
+            routerLinkActive="router-link-active"
+            class="nav-link">
             <i class="fas fa-user"></i> Se connecter
           </a>
         </li>
+
+        <!--boton para cerrar sesion-->
         <li *ngIf="isLogged" class="nav-item">
           <a
             style="cursor: pointer"
@@ -46,6 +51,17 @@ en talla md-->
             (click)="logout()"
           >
             <i class="fas fa-user-times"></i> Se déconnecter
+          </a>
+        </li>
+
+        <!--boton para registrarse-->
+        <li *ngIf="!isLogged" class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/registrarse"
+            routerLinkActive="router-link-active"
+          >
+            <i class="fas fa-user"></i> S'enregistrer
           </a>
         </li>
 

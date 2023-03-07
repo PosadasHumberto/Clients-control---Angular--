@@ -34,4 +34,15 @@ export class LoginService {
     this.authService.signOut();
   }
 
+  /*Método que crea un nuevo usuario en Authentication de nuestra aplicacion
+* de Firebase pudiendo asi hacer login*/
+  registro(email : string, password : string) : Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.authService.createUserWithEmailAndPassword(email, password)
+        .then(
+          datos => resolve(datos),
+          error => reject(error));
+    });
+  }
+
 }
