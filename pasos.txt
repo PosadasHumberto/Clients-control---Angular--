@@ -35,6 +35,9 @@ Pasos que segui para configurar mi proyecto:
 	-generar environments con el comando ng g environments
 	-en el environment.ts y environment.prod.ts poner los datos de 
 		configuracion de nuestra base de datos de firebase.
+*Crear las colecciones en Firebase :
+	-coleccion clientes con id autogenerado campos apellido,nombre,email y saldo
+	-coleccion configuracion con id unico y un campo permitirRegistro = false
 
 *importar los modulos necesarios en el app.module.ts:
 	-AngularFireModule

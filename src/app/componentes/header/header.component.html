@@ -28,13 +28,13 @@ en talla md-->
           </a>
           <div class="dropdown-menu">
             <a routerLink="/configuracion" class="dropdown-item">
-              <i class="fas fa-cog"></i> Paramètres
+              <i class="fas fa-cog"></i> Configuration
             </a>
           </div>
         </li>
 
         <!--boton para conectarse-->
-        <li *ngIf="!isLogged" class="nav-item">
+        <li *ngIf="!isLogged && permitirRegistro" class="nav-item">
           <a
             routerLink="/login"
             routerLinkActive="router-link-active"
@@ -55,7 +55,7 @@ en talla md-->
         </li>
 
         <!--boton para registrarse-->
-        <li *ngIf="!isLogged" class="nav-item">
+        <li *ngIf="!isLogged && permitirRegistro" class="nav-item">
           <a
             class="nav-link"
             routerLink="/registrarse"

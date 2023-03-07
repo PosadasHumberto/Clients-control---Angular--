@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from "../../services/login.service";
 import {Router} from "@angular/router";
+import {ConfiguracionService} from "../../services/configuracion.service";
 
 @Component({
   selector: 'app-header',
@@ -12,11 +13,13 @@ export class HeaderComponent implements OnInit{
   //atributos
   isLogged : boolean;
   loggedUser : string | null;
+  permitirRegistro : boolean | undefined;
 
   //constructor
   constructor(
     private loginService : LoginService,
-    private router : Router
+    private router : Router,
+    private configuracionService : ConfiguracionService
   ) {
   }
 
@@ -30,6 +33,10 @@ export class HeaderComponent implements OnInit{
       else {
         this.isLogged = false;
       }
+    });
+
+    this.configuracionService.getConfiguracion().subscribe(conf => {
+      this.permitirRegistro = conf?.permitirRegistro;
     })
   }
 
