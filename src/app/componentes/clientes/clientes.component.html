@@ -1,0 +1,206 @@
+<!--Botones-->
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-3">
+        <a
+          href="#"
+          class="btn btn-primary btn-block"
+          data-bs-toggle="modal"
+          data-bs-target="#agregarClienteModal"
+        >
+          <i class="fas fa-plus">Ajouter Client</i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Listado Clientes-->
+<section id="clientes">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header h3 text-center">
+            List de Clients
+          </div>
+          <table class="table table-striped">
+            <thead class="bg-dark text-light">
+              <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Solde</th>
+                <th>Modifier</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let c of clientes; let i = index">
+              <td>{{ i+1 }}</td>
+              <td>{{ c.nombre }} {{ c.apellido }}</td>
+              <td>{{ c.saldo | currency: 'EUR' : '€'}}</td>
+              <td>
+                <a
+                  routerLink="/cliente/editar/{{c.id}}"
+                  class="btn btn-secondary"
+                ><i class="fas fa-edit"></i> Modifier</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!--Tarjetas laterales-->
+      <div class="col-md-3">
+        <div class="card text-center bg-danger text-white mb-3">
+          <div class="card-body">
+            <h3>Solde total</h3>
+            <h4 class="display-4">{{ getSaldoTotal() | currency: 'EUR' : '€' }}</h4>
+          </div>
+        </div>
+
+
+
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Clients</h3>
+            <h4 class="display-4">
+              <i class="fas fa-users"></i>  {{ clientes?.length }}
+            </h4>
+          </div>
+        </div>
+      </div>
+<!--Fin tarjetas laterales-->
+
+    </div>
+  </div>
+</section>
+
+<!--Agregar Cliente modal-->
+<div class="modal fade" id="agregarClienteModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">Ajouter Client</h5>
+        <button class="close" data-bs-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <!--Formulario clientes-->
+      <!--
+      #clienteForm es la forma como nosotros podemos poner un id en Angular ya que
+      si colocamos id="clienteform" vamos a tener un erroral compilar. Este
+      identificador va a definirse como ngForm que es la libreria que Angular ha dado
+      para facilitarnos el trabajo con los formularios, de esta forma le decimos a
+      Angular que la etiqueta de este formulario es clienteform y sera la principal.
+
+      Escuchando el evento ngSubmit vamos a invocar el evento agregar pasandole el
+      identificador de angular que asignamos al formulario para que nos permita
+      recuperar en la clase los datos ingresados en el formulario ayudandonos de
+      el atributo [(ngModel)] de cada input.
+      -->
+      <form
+        #clienteform="ngForm"
+        (ngSubmit)="agregar(clienteform)"
+      >
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="nombre">Prenom</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombre"
+              id="nombre"
+              #nombre="ngModel"
+              [(ngModel)]="cliente.nombre"
+              [ngClass]="{'is-invalid' : nombre.errors && nombre.touched}"
+              required
+              minlength="2"
+            >
+            <!--mensajes de error en el campo nombre-->
+            <div class="invalid-feedback" *ngIf="nombre.errors?.['required']">
+              Le prénom est requis
+            </div>
+            <div class="invalid-feedback" *ngIf="nombre.errors?.['minlength']">
+              Le prénom doit avoir au moins 2 caractères
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apellido">Nom</label>
+            <input
+              type="text"
+              class="form-control"
+              id="apellido"
+              name="apellido"
+              #apellido="ngModel"
+              [(ngModel)]="cliente.apellido"
+              [ngClass]="{'is-invalid' : apellido.errors && apellido.touched}"
+              required
+              minlength="2"
+            >
+            <!--mensajes de error en el campo apellido-->
+            <div class="invalid-feedback" *ngIf="apellido.errors?.['required']">
+              Le nom est requis
+            </div>
+            <div class="invalid-feedback" *ngIf="apellido.errors?.['minlength']">
+              Le nom doit avoir au moins 2 caractères
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              #email="ngModel"
+              [(ngModel)]="cliente.email"
+              [ngClass]="{'is-invalid' : email.errors && email.touched}"
+              required
+              pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$"
+            >
+            <!--mensajes de error en el campo email-->
+            <div class="invalid-feedback" *ngIf="email.errors?.['required']">
+              Le champ email est requis
+            </div>
+            <div class="invalid-feedback" *ngIf="email.errors?.['pattern']">
+              Cette adresse n'est pas valide
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="saldo">Solde</label>
+            <input
+              type="number"
+              class="form-control"
+              id="saldo"
+              name="saldo"
+              #saldo="ngModel"
+              [(ngModel)]="cliente.saldo"
+              [ngClass]="{'is-invalid' : saldo.errors && saldo.touched}"
+              required
+            >
+            <!--mensajes de error en el campo email-->
+            <div class="invalid-feedback" *ngIf="saldo.errors?.['required']">
+              Le solde est requis
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">Enregistrer</button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+

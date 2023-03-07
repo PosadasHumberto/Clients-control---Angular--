@@ -1,0 +1,160 @@
+<header id="main-header" class="py-2 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Modifier Client
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--Formulario clientes-->
+<!--
+#clienteForm es la forma como nosotros podemos poner un id en Angular ya que
+si colocamos id="clienteform" vamos a tener un erroral compilar. Este
+identificador va a definirse como ngForm que es la libreria que Angular ha dado
+para facilitarnos el trabajo con los formularios, de esta forma le decimos a
+Angular que la etiqueta de este formulario es clienteform y sera la principal.
+
+Escuchando el evento ngSubmit vamos a invocar el evento agregar pasandole el
+identificador de angular que asignamos al formulario para que nos permita
+recuperar en la clase los datos ingresados en el formulario ayudandonos de
+el atributo [(ngModel)] de cada input.
+-->
+<form
+  #clienteform="ngForm"
+  (ngSubmit)="guardar(clienteform)"
+>
+
+  <flash-messages></flash-messages>
+
+  <!--Botones-->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+
+        <div class="col col-md-3">
+          <a routerLink="/" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left"></i> Retour a l'accueil
+          </a>
+        </div>
+
+        <div class="col col-md-3">
+          <button class="btn btn-success btn-block">
+            <i class="fas fa-check"></i> Enregistrer
+          </button>
+        </div>
+
+        <div class="col col-md-3">
+          <a href="#" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fas fa-trash"></i> Supprimer Client
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Modifier Client</h4>
+            </div>
+            <div class="card-body">
+
+              <div class="form-group">
+                <label for="nombre">Prenom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nombre"
+                  id="nombre"
+                  #nombre="ngModel"
+                  [(ngModel)]="cliente.nombre"
+                  [ngClass]="{'is-invalid' : nombre.errors && nombre.touched}"
+                  required
+                  minlength="2"
+                >
+                <!--mensajes de error en el campo nombre-->
+                <div class="invalid-feedback" *ngIf="nombre.errors?.['required']">
+                  Le prénom est requis
+                </div>
+                <div class="invalid-feedback" *ngIf="nombre.errors?.['minlength']">
+                  Le prénom doit avoir au moins 2 caractères
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="apellido">Nom</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="apellido"
+                  name="apellido"
+                  #apellido="ngModel"
+                  [(ngModel)]="cliente.apellido"
+                  [ngClass]="{'is-invalid' : apellido.errors && apellido.touched}"
+                  required
+                  minlength="2"
+                >
+                <!--mensajes de error en el campo apellido-->
+                <div class="invalid-feedback" *ngIf="apellido.errors?.['required']">
+                  Le nom est requis
+                </div>
+                <div class="invalid-feedback" *ngIf="apellido.errors?.['minlength']">
+                  Le nom doit avoir au moins 2 caractères
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  #email="ngModel"
+                  [(ngModel)]="cliente.email"
+                  [ngClass]="{'is-invalid' : email.errors && email.touched}"
+                  required
+                  pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$"
+                >
+                <!--mensajes de error en el campo email-->
+                <div class="invalid-feedback" *ngIf="email.errors?.['required']">
+                  Le champ email est requis
+                </div>
+                <div class="invalid-feedback" *ngIf="email.errors?.['pattern']">
+                  Cette adresse n'est pas valide
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="saldo">Solde</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="saldo"
+                  name="saldo"
+                  #saldo="ngModel"
+                  [(ngModel)]="cliente.saldo"
+                  [ngClass]="{'is-invalid' : saldo.errors && saldo.touched}"
+                  required
+                >
+                <!--mensajes de error en el campo email-->
+                <div class="invalid-feedback" *ngIf="saldo.errors?.['required']">
+                  Le solde est requis
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

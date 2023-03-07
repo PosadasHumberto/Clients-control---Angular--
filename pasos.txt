@@ -1,0 +1,61 @@
+Pasos que segui para configurar mi proyecto:
+
+*crear proyecto: ng new control-de-clientes  
+*interar bootstrap 5 y popperjs al proyecto con los siguientes comandos:
+	-npm install bootstrap@5.0.2 --save 
+	-npm install @popperjs/core@2.9.2 --save
+	"styles": [
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+
+            ],
+            "scripts": [
+              "./node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+
+*crear los componentes siguientes:
+	ng g c componentes/header --skip-tests     
+	ng g c componentes/tablero --skip-tests     
+	ng g c componentes/clientes --skip-tests     
+	ng g c componentes/login --skip-tests     
+	ng g c componentes/editar-cliente --skip-tests     
+	ng g c componentes/registro --skip-tests     
+	ng g c componentes/configuracion --skip-tests     
+	ng g c componentes/no-encontrado --skip-tests     
+	ng g c componentes/pie-pagina --skip-tests   
+*agregar fontawesome al proyecto agregando la siguiente etiqueta al index.html:
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+*instalar firebase a nuestro proyecto para configurar el real time database
+	usando el comando npm install firebase @angular/fire --save 
+*instalar el modulo flash-messages que nos va a permitir enviar alertas:
+	npm install angular2-flash-messages --save 
+
+*configurar firestore para lo que se tiene que hacer lo siguiente: 
+	-generar environments con el comando ng g environments
+	-en el environment.ts y environment.prod.ts poner los datos de 
+		configuracion de nuestra base de datos de firebase.
+
+*importar los modulos necesarios en el app.module.ts:
+	-AngularFireModule
+	-AngularFirestoreModule, SETTINGS
+	-AngularFireAuthModule
+	-FlashMessagesModule
+	-FormsModule
+
+*definir las reglas de autenticacion de la BDD:
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /clientes/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    match /configuracion/{document=**} {
+      allow read, write;
+    }
+  }
+}
+
+*Registrar usuarios con roles en la BDD:
+		admin@test.com		123456
+

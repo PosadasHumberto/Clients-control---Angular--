@@ -1,0 +1,61 @@
+<!--Este componente muestra una bara de navegacion con iconos y dropdown
+en talla md-->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark p-0">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand">Clients Control</a>
+    <button
+      type="button"
+      class="navbar-toggler"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarCollapse"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+
+      <ul *ngIf="isLogged" class="navbar-nav">
+        <li class="nav-item px-2">
+          <a routerLink="/" class="nav-link">Accueil</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+
+        <li *ngIf="isLogged" class="nav-item dropdown mr-3">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-user"></i> Bienvenue {{ loggedUser }}
+          </a>
+          <div class="dropdown-menu">
+            <a routerLink="/configuracion" class="dropdown-item">
+              <i class="fas fa-cog"></i> Paramètres
+            </a>
+          </div>
+        </li>
+
+
+        <li *ngIf="!isLogged" class="nav-item">
+          <a routerLink="/login" class="nav-link">
+            <i class="fas fa-user"></i> Se connecter
+          </a>
+        </li>
+        <li *ngIf="isLogged" class="nav-item">
+          <a
+            style="cursor: pointer"
+            class="nav-link"
+            (click)="logout()"
+          >
+            <i class="fas fa-user-times"></i> Se déconnecter
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+
+</nav>
+
+
+
+
